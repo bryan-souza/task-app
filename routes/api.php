@@ -19,6 +19,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// These will map to api/auth/endpoint
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('user', [AuthController::class, 'user']);
+});
+
 Route::get('tasks', [TaskController::class, 'index']);
 Route::post('tasks', [TaskController::class, 'store']);
 Route::get('tasks/{task}', [TaskController::class, 'show']);
